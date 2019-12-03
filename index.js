@@ -30,11 +30,11 @@ clearConsole()
 jimp.read('world.jpg', (err, map_image) => {
   if (err) throw err;
   map_image.resize(100,50);
-  console.log(map_image.getPixelColor(0,0)); //gibt die Farbe des Pixels links oben zurück
-  writeCharacterToConsole('#',0,0); //schreibt ein # links oben in die Konsole
+ // console.log(map_image.getPixelColor(0,0)); //gibt die Farbe des Pixels links oben zurück
+ // writeCharacterToConsole('#',0,0); //schreibt ein # links oben in die Konsole
 
   //----- Hier kommt euer Code hin -----
-  
+ 
 
 
 });
@@ -56,9 +56,43 @@ function clearConsole () {
 
   rl.cursorTo(process.stdout, 0, 0)
   rl.clearScreenDown(process.stdout)
+
+  
 }
 
 function writeCharacterToConsole (char, x, y) {
   rl.cursorTo(process.stdout,x,y)
   process.stdout.write(char)
 }
+
+
+
+const chalk = require('chalk');  
+function generateinvader (width, height, xpos, ypos) {
+
+
+
+  //random schwarz weiss pixel generieren
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      let hue = Math.floor(Math.random() * 360);
+      let r = Math.floor(Math.random() * 100);
+      let g = Math.floor(Math.random() * 100);
+      //let b = Math.floor(Math.random() * 256);
+      if (Math.random() <= 0.5) {
+        writeCharacterToConsole(chalk.hsv(hue, r, g, )('▓'), x + xpos, y + ypos);
+        writeCharacterToConsole(chalk.hsv(hue, r, g, )('▓'), (2 * width) - x + xpos, y + ypos);
+        rl.cursorTo(process.stdout, 100, 8000)
+      
+      }
+    }
+  }
+}
+setInterval(function () {
+  const xpos = Math.floor(Math.random() * 200);
+  const ypos = Math.floor(Math.random() * 40);
+  clearConsole();
+  generateinvader(15, 15, xpos, ypos);
+  
+
+}, 100);
